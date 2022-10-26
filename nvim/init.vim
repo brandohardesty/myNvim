@@ -162,7 +162,10 @@ Plug 'hrsh7th/vim-vsnip'
 
 Plug 'SmiteshP/nvim-navic'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'nvim-neo-tree/neo-tree.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Initialize plugin system
 call plug#end()
 
@@ -180,7 +183,7 @@ set background=dark
 
 " Show character column
 " set colorcolumn=80
-autocmd VimEnter * NERDTree
+autocmd VimEnter * Neotree show
 autocmd VimEnter * Tagbar
 
 set mouse=a
