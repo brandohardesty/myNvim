@@ -147,7 +147,7 @@ Plug 'ejholmes/vim-forcedotcom'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
-
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -159,7 +159,8 @@ Plug 'kyazdani42/nvim-web-devicons'
 " For vsnip users.
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
-
+Plug 'simrat39/symbols-outline.nvim'
+Plug 'nvim-tree/nvim-tree.lua'
 Plug 'SmiteshP/nvim-navic'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'MunifTanjim/nui.nvim'
@@ -178,14 +179,12 @@ let g:rainbow_active = 1
 "colorscheme night_owl_light
 
 " Dark scheme
-colorscheme codedark
-set background=dark
+colorscheme tokyonight
 
 " Show character column
 " set colorcolumn=80
-autocmd VimEnter * Neotree show
-autocmd VimEnter * Tagbar
-
+autocmd VimEnter * NvimTreeFocus
+autocmd VimEnter * SymbolsOutlineOpen
 set mouse=a
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
