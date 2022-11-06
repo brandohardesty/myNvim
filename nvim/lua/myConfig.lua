@@ -176,7 +176,16 @@ inactive_winbar = {
 
   -- List of parsers to ignore installing (for "all")
   ignore_install = { "javascript" },
+    
 
+    rainbow = {
+    enable = true,
+    -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
+    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+    -- colors = {}, -- table of hex strings
+    -- termcolors = {} -- table of colour name strings
+  },
   ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
   -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
 
@@ -259,7 +268,10 @@ config = function ()
       -- NOTE: this is changed from v1.x, which used the old style of highlight groups
       -- in the form "LspDiagnosticsSignWarning"
 
-      require("neo-tree").setup({
+
+
+      
+require("neo-tree").setup({
         close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
         popup_border_style = "rounded",
         enable_git_status = true,
@@ -522,8 +534,35 @@ local optsOutline = {
     TypeParameter = {icon = "𝙏", hl = "TSParameter"}
   }
 }
+
+require("bufferline").setup{
+
+  options = {
+ offsets = {
+        {
+            filetype = "NvimTree",
+            text = "File Explorer",
+            highlight = "Directory",
+            separator = true -- use a "true" to enable the default, or set your own character
+        }
+    },
+
+
+}
+}
 require("symbols-outline").setup(optsOutline)
-require("nvim-tree").setup()
+require("nvim-tree").setup({
+
+
+  filters = {
+
+    dotfiles = true,
+  },
+
+
+})
+
+
 local lsp_flags = {
   -- This is the default in Nvim 0.7+
   debounce_text_changes = 150,

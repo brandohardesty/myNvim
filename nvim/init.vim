@@ -132,6 +132,7 @@ Plug 'fenetikm/falcon'
 Plug 'raimondi/delimitmate'
 " https://github.com/macguirerintoul/night_owl_light.vim
 Plug 'macguirerintoul/night_owl_light.vim'
+Plug 'luochen1990/rainbow'
 
 Plug 'tomasiser/vim-code-dark'
 Plug 'scrooloose/nerdtree'
@@ -140,7 +141,6 @@ Plug 'majutsushi/tagbar'
 
 Plug 'stephpy/vim-yaml'
 
-Plug 'luochen1990/rainbow'
 
 Plug 'tpope/vim-fugitive'
 Plug 'ejholmes/vim-forcedotcom'
@@ -167,6 +167,9 @@ Plug 'MunifTanjim/nui.nvim'
 Plug 'nvim-neo-tree/neo-tree.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'ellisonleao/glow.nvim'
+Plug 'p00f/nvim-ts-rainbow'
+Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
 " Initialize plugin system
 call plug#end()
 
@@ -214,3 +217,21 @@ let g:blamer_enabled = 1
 " %a is the day of week, in case it's needed
 let g:blamer_date_format = '%e %b %Y'
 highlight Blamer guifg=darkorange
+
+
+
+nnoremap <silent>[b :BufferLineCycleNext<CR>
+nnoremap <silent>b] :BufferLineCyclePrev<CR>
+
+
+
+nnoremap <silent><leader>1 <Cmd>BufferLineGoToBuffer 1<CR>
+nnoremap <silent><leader>2 <Cmd>BufferLineGoToBuffer 2<CR>
+nnoremap <silent><leader>3 <Cmd>BufferLineGoToBuffer 3<CR>
+nnoremap <silent><leader>4 <Cmd>BufferLineGoToBuffer 4<CR>
+nnoremap <silent><leader>5 <Cmd>BufferLineGoToBuffer 5<CR>
+nnoremap <silent><leader>6 <Cmd>BufferLineGoToBuffer 6<CR>
+nnoremap <silent><leader>7 <Cmd>BufferLineGoToBuffer 7<CR>
+nnoremap <silent><leader>8 <Cmd>BufferLineGoToBuffer 8<CR>
+nnoremap <silent><leader>9 <Cmd>BufferLineGoToBuffer 9<CR>
+nnoremap <silent><leader>$ <Cmd>BufferLineGoToBuffer -1<CR>
