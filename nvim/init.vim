@@ -170,7 +170,9 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ellisonleao/glow.nvim'
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
+Plug 'noib3/nvim-cokeline'
 " Initialize plugin system
+
 call plug#end()
 
 set completeopt=menu,menuone,noselect
@@ -189,6 +191,9 @@ colorscheme tokyonight
 autocmd VimEnter * NvimTreeFocus
 autocmd VimEnter * SymbolsOutlineOpen
 set mouse=a
+
+
+
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
 if has("nvim-0.5.0") || has("patch-8.1.1564")

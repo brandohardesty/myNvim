@@ -30,7 +30,17 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
+local map = vim.api.nvim_set_keymap
 
+map('n', '<S-Tab>',   '<Plug>(cokeline-focus-prev)',  { silent = true })
+map('n', '<Tab>',     '<Plug>(cokeline-focus-next)',  { silent = true })
+map('n', '<Leader>p', '<Plug>(cokeline-switch-prev)', { silent = true })
+map('n', '<Leader>n', '<Plug>(cokeline-switch-next)', { silent = true })
+
+for i = 1,9 do
+  map('n', ('<F%s>'):format(i),      ('<Plug>(cokeline-focus-%s)'):format(i),  { silent = true })
+  map('n', ('<Leader>%s'):format(i), ('<Plug>(cokeline-switch-%s)'):format(i), { silent = true })
+end
 require("mason").setup()
 require("mason-lspconfig").setup()
 
@@ -534,22 +544,56 @@ local optsOutline = {
     TypeParameter = {icon = "𝙏", hl = "TSParameter"}
   }
 }
+local get_hex = require('cokeline/utils').get_hex
 
-require("bufferline").setup{
+local yellow = vim.g.terminal_color_3
+require('cokeline').setup({
 
-  options = {
- offsets = {
-        {
-            filetype = "NvimTree",
-            text = "File Explorer",
-            highlight = "Directory",
-            separator = true -- use a "true" to enable the default, or set your own character
-        }
+default_hl = {
+    fg = function(buffer)
+      return
+        buffer.is_focused
+        and yellow   
+      end,
+    bg = 'NONE'
+  },
+
+  components = {
+    {
+      text = function(buffer) return ' ' .. buffer.devicon.icon end,
+      fg = function(buffer) return buffer.devicon.color end,
     },
+    {
+      text = function(buffer) return buffer.unique_prefix end,
+      fg = get_hex('Comment', 'fg'),
+      style = 'italic',
+    },
+    {
+      text = function(buffer) return buffer.filename .. ' ' end,
+    },
+    {
+      text = '',
+      delete_buffer_on_left_click = true,
+    },
+    {
+      text = ' ',
+    }
+  },
 
+ sidebar = {
+    filetype = 'NvimTree',
+    components = {
+      {
+        text = '  NvimTree',
+        fg = yellow,
+        bg = get_hex('NvimTreeNormal', 'bg'),
+        style = 'bold',
+      },
+    }
+  },
+}
+)
 
-}
-}
 require("symbols-outline").setup(optsOutline)
 require("nvim-tree").setup({
 
