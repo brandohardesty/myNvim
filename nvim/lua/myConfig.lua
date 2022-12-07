@@ -37,6 +37,11 @@ map('n', '<Tab>',     '<Plug>(cokeline-focus-next)',  { silent = true })
 map('n', '<Leader>p', '<Plug>(cokeline-switch-prev)', { silent = true })
 map('n', '<Leader>n', '<Plug>(cokeline-switch-next)', { silent = true })
 
+<<<<<<< HEAD
+=======
+map('n', '<Leader>c', '<Plug>(cokeline-pick-close)', { silent = true })
+
+>>>>>>> 1daa8ba (Added git plugins and tabs)
 for i = 1,9 do
   map('n', ('<F%s>'):format(i),      ('<Plug>(cokeline-focus-%s)'):format(i),  { silent = true })
   map('n', ('<Leader>%s'):format(i), ('<Plug>(cokeline-switch-%s)'):format(i), { silent = true })
@@ -544,9 +549,19 @@ local optsOutline = {
     TypeParameter = {icon = "𝙏", hl = "TSParameter"}
   }
 }
+<<<<<<< HEAD
 local get_hex = require('cokeline/utils').get_hex
 
 local yellow = vim.g.terminal_color_3
+=======
+
+local get_hex = require('cokeline/utils').get_hex
+
+local red = vim.g.terminal_color_1
+local yellow = vim.g.terminal_color_3
+local is_picking_focus = require('cokeline/mappings').is_picking_focus
+local is_picking_close = require('cokeline/mappings').is_picking_close
+>>>>>>> 1daa8ba (Added git plugins and tabs)
 require('cokeline').setup({
 
 default_hl = {
@@ -559,6 +574,7 @@ default_hl = {
   },
 
   components = {
+<<<<<<< HEAD
     {
       text = function(buffer) return ' ' .. buffer.devicon.icon end,
       fg = function(buffer) return buffer.devicon.color end,
@@ -566,6 +582,12 @@ default_hl = {
     {
       text = function(buffer) return buffer.unique_prefix end,
       fg = get_hex('Comment', 'fg'),
+=======
+        {
+      text = function(buffer) return (is_picking_focus() or is_picking_close()) and buffer.pick_letter .. ' ' or buffer.devicon.icon end,
+      fg = function(buffer) return (is_picking_focus() and yellow) or (is_picking_close() and red) or buffer.devicon.color end,
+
+>>>>>>> 1daa8ba (Added git plugins and tabs)
       style = 'italic',
     },
     {
@@ -594,6 +616,10 @@ default_hl = {
 }
 )
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1daa8ba (Added git plugins and tabs)
 require("symbols-outline").setup(optsOutline)
 require("nvim-tree").setup({
 

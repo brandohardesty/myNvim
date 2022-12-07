@@ -16,6 +16,7 @@ set path+=**
 " number of lines at the beginning and end of files checked for file-specific vars
 set modelines=0
 
+set updatetime=100
 " reload files changed outside of Vim not currently modified in Vim (needs below)
 set autoread
 
@@ -141,7 +142,11 @@ Plug 'majutsushi/tagbar'
 
 Plug 'stephpy/vim-yaml'
 
+<<<<<<< HEAD
 
+=======
+Plug 'airblade/vim-gitgutter'
+>>>>>>> 1daa8ba (Added git plugins and tabs)
 Plug 'tpope/vim-fugitive'
 Plug 'ejholmes/vim-forcedotcom'
 Plug 'williamboman/mason.nvim'
