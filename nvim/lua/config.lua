@@ -56,3 +56,16 @@ require('lspconfig')['rust_analyzer'].setup{
       ["rust-analyzer"] = {}
     }
 }
+require('lspconfig')['pyright'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+    settings = {
+  python = {
+    analysis = {
+      autoSearchPaths = true,
+      diagnosticMode = "workspace",
+      useLibraryCodeForTypes = true
+    }
+  }
+},
+}

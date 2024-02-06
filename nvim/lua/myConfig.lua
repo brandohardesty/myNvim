@@ -37,11 +37,8 @@ map('n', '<Tab>',     '<Plug>(cokeline-focus-next)',  { silent = true })
 map('n', '<Leader>p', '<Plug>(cokeline-switch-prev)', { silent = true })
 map('n', '<Leader>n', '<Plug>(cokeline-switch-next)', { silent = true })
 
-<<<<<<< HEAD
-=======
 map('n', '<Leader>c', '<Plug>(cokeline-pick-close)', { silent = true })
 
->>>>>>> 1daa8ba (Added git plugins and tabs)
 for i = 1,9 do
   map('n', ('<F%s>'):format(i),      ('<Plug>(cokeline-focus-%s)'):format(i),  { silent = true })
   map('n', ('<Leader>%s'):format(i), ('<Plug>(cokeline-switch-%s)'):format(i), { silent = true })
@@ -114,12 +111,38 @@ navic = require("nvim-navic")
 local on_attach = function(client, bufnr)
         navic.attach(client, bufnr)
 end
+vim.o.background = 'dark'
+local c = require('vscode.colors').get_colors()
+require('vscode').setup({
+    -- Alternatively set style in setup
+    -- style = 'light'
 
+    -- Enable transparent background
+    transparent = true,
 
+    -- Enable italic comment
+    italic_comments = true,
+
+    -- Disable nvim-tree background color
+    disable_nvimtree_bg = true,
+
+    -- Override colors (see ./lua/vscode/colors.lua)
+    color_overrides = {
+        vscLineNumber = '#FFFFFF',
+    },
+
+    -- Override highlight groups (see ./lua/vscode/theme.lua)
+    group_overrides = {
+        -- this supports the same val table as vim.api.nvim_set_hl
+        -- use colors from this colorscheme by requiring vscode.colors!
+        Cursor = { fg=c.vscDarkBlue, bg=c.vscLightGreen, bold=true },
+    }
+})
+require('vscode').load()
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'tokyonight',
+    theme = 'vscode',
     component_separators = { left = '', right = ''},
     section_separators = { left = '', right = ''},
     disabled_filetypes = {
@@ -549,11 +572,6 @@ local optsOutline = {
     TypeParameter = {icon = "𝙏", hl = "TSParameter"}
   }
 }
-<<<<<<< HEAD
-local get_hex = require('cokeline/utils').get_hex
-
-local yellow = vim.g.terminal_color_3
-=======
 
 local get_hex = require('cokeline/utils').get_hex
 
@@ -561,7 +579,6 @@ local red = vim.g.terminal_color_1
 local yellow = vim.g.terminal_color_3
 local is_picking_focus = require('cokeline/mappings').is_picking_focus
 local is_picking_close = require('cokeline/mappings').is_picking_close
->>>>>>> 1daa8ba (Added git plugins and tabs)
 require('cokeline').setup({
 
 default_hl = {
@@ -574,20 +591,10 @@ default_hl = {
   },
 
   components = {
-<<<<<<< HEAD
-    {
-      text = function(buffer) return ' ' .. buffer.devicon.icon end,
-      fg = function(buffer) return buffer.devicon.color end,
-    },
-    {
-      text = function(buffer) return buffer.unique_prefix end,
-      fg = get_hex('Comment', 'fg'),
-=======
         {
       text = function(buffer) return (is_picking_focus() or is_picking_close()) and buffer.pick_letter .. ' ' or buffer.devicon.icon end,
       fg = function(buffer) return (is_picking_focus() and yellow) or (is_picking_close() and red) or buffer.devicon.color end,
 
->>>>>>> 1daa8ba (Added git plugins and tabs)
       style = 'italic',
     },
     {
@@ -616,10 +623,7 @@ default_hl = {
 }
 )
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 1daa8ba (Added git plugins and tabs)
 require("symbols-outline").setup(optsOutline)
 require("nvim-tree").setup({
 
@@ -631,25 +635,79 @@ require("nvim-tree").setup({
 
 
 })
-
-
+local ft_to_parser = require"nvim-treesitter.parsers".filetype_to_parsername
+ft_to_parser.apex = "java"
 local lsp_flags = {
   -- This is the default in Nvim 0.7+
   debounce_text_changes = 150,
 }
-require('lspconfig')['pyright'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    settings = {
-  python = {
-    analysis = {
-      autoSearchPaths = true,
-      diagnosticMode = "workspace",
-      useLibraryCodeForTypes = true
-    }
+local null_ls = require("null-ls")
+
+local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
+local event = "BufWritePre" -- or "BufWritePost"
+local async = event == "BufWritePost"
+
+null_ls.setup({
+  on_attach = function(client, bufnr)
+    if client.supports_method("textDocument/formatting") then
+      vim.keymap.set("n", "<Leader>f", function()
+        vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
+      end, { buffer = bufnr, desc = "[lsp] format" })
+
+      -- format on save
+      vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
+      vim.api.nvim_create_autocmd(event, {
+        buffer = bufnr,
+        group = group,
+        callback = function()
+          vim.lsp.buf.format({ bufnr = bufnr, async = async })
+        end,
+        desc = "[lsp] format on save",
+      })
+    end
+
+    if client.supports_method("textDocument/rangeFormatting") then
+      vim.keymap.set("x", "<Leader>f", function()
+        vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
+      end, { buffer = bufnr, desc = "[lsp] format" })
+    end
+  end,
+})
+
+
+local prettier = require("prettier")
+
+prettier.setup({
+  bin = 'prettier', -- or `'prettierd'` (v0.23.3+)
+  filetypes = {
+    "cls",
+    "css",
+    "graphql",
+    "html",
+    "javascript",
+    "javascriptreact",
+    "json",
+    "less",
+    "markdown",
+    "scss",
+    "typescript",
+    "typescriptreact",
+    "yaml",
+  },
+["null-ls"] = {
+    condition = function()
+      return prettier.config_exists({
+        -- if `false`, skips checking `package.json` for `"prettier"` key
+        check_package_json = true,
+      })
+    end,
+    runtime_condition = function(params)
+      -- return false to skip running prettier
+      return true
+    end,
+    timeout = 5000,
   }
-},
-}
+})
 require('lspconfig')['tsserver'].setup{
     on_attach = on_attach,
     flags = lsp_flags,
@@ -683,5 +741,4 @@ require('lspconfig')['clangd'].setup{
     on_attach = on_attach,
     flags = lsp_flags,
 }
-
 

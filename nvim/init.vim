@@ -142,17 +142,13 @@ Plug 'majutsushi/tagbar'
 
 Plug 'stephpy/vim-yaml'
 
-<<<<<<< HEAD
-
-=======
 Plug 'airblade/vim-gitgutter'
->>>>>>> 1daa8ba (Added git plugins and tabs)
 Plug 'tpope/vim-fugitive'
 Plug 'ejholmes/vim-forcedotcom'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'Mofiqul/vscode.nvim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -176,6 +172,8 @@ Plug 'ellisonleao/glow.nvim'
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
 Plug 'noib3/nvim-cokeline'
+Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'MunifTanjim/prettier.nvim'
 " Initialize plugin system
 
 call plug#end()
@@ -189,7 +187,6 @@ let g:rainbow_active = 1
 "colorscheme night_owl_light
 
 " Dark scheme
-colorscheme tokyonight
 
 " Show character column
 " set colorcolumn=80
@@ -227,7 +224,8 @@ let g:blamer_enabled = 1
 " %a is the day of week, in case it's needed
 let g:blamer_date_format = '%e %b %Y'
 highlight Blamer guifg=darkorange
-
+set nowrap           " do not automatically wrap on load
+set formatoptions-=t " do not automatically wrap text when typing
 
 
 nnoremap <silent>[b :BufferLineCycleNext<CR>
