@@ -228,6 +228,7 @@ set nowrap           " do not automatically wrap on load
 set formatoptions-=t " do not automatically wrap text when typing
 
 
+
 nnoremap <silent>[b :BufferLineCycleNext<CR>
 nnoremap <silent>b] :BufferLineCyclePrev<CR>
 

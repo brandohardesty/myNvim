@@ -637,6 +637,8 @@ require("nvim-tree").setup({
 })
 local ft_to_parser = require"nvim-treesitter.parsers".filetype_to_parsername
 ft_to_parser.apex = "java"
+
+
 local lsp_flags = {
   -- This is the default in Nvim 0.7+
   debounce_text_changes = 150,
