@@ -128,17 +128,11 @@ Plug 'zivyangll/git-blame.vim'
 
 Plug 'andymass/vim-matchup'
 " https://github.com/fenetikm/falcon/wiki/Installation
-Plug 'fenetikm/falcon'
 
 Plug 'raimondi/delimitmate'
 " https://github.com/macguirerintoul/night_owl_light.vim
-Plug 'macguirerintoul/night_owl_light.vim'
-Plug 'luochen1990/rainbow'
 
 Plug 'tomasiser/vim-code-dark'
-Plug 'scrooloose/nerdtree'
-Plug 'xuyuanp/nerdtree-git-plugin'
-Plug 'majutsushi/tagbar'
 
 Plug 'stephpy/vim-yaml'
 
@@ -165,15 +159,13 @@ Plug 'nvim-tree/nvim-tree.lua'
 Plug 'SmiteshP/nvim-navic'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'MunifTanjim/nui.nvim'
-Plug 'nvim-neo-tree/neo-tree.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ellisonleao/glow.nvim'
-Plug 'p00f/nvim-ts-rainbow'
-Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
-Plug 'noib3/nvim-cokeline'
+Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'MunifTanjim/prettier.nvim'
+Plug 'HiPhish/rainbow-delimiters.nvim'
 " Initialize plugin system
 
 call plug#end()
@@ -182,7 +174,6 @@ set completeopt=menu,menuone,noselect
 syntax enable
 " Neovim only
 set termguicolors 
-let g:rainbow_active = 1
 " Light scheme
 "colorscheme night_owl_light
 

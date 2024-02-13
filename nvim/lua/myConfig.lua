@@ -31,18 +31,21 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 local map = vim.api.nvim_set_keymap
+vim.opt.termguicolors = true
+require("bufferline").setup{
+ options={
+offsets = {
+        {
+            filetype = "NvimTree",
+            text = "File Explorer",
+            highlight = "Directory",
+            separator = true -- use a "true" to enable the default, or set your own character
+        }
+    }
+  }
+}
 
-map('n', '<S-Tab>',   '<Plug>(cokeline-focus-prev)',  { silent = true })
-map('n', '<Tab>',     '<Plug>(cokeline-focus-next)',  { silent = true })
-map('n', '<Leader>p', '<Plug>(cokeline-switch-prev)', { silent = true })
-map('n', '<Leader>n', '<Plug>(cokeline-switch-next)', { silent = true })
 
-map('n', '<Leader>c', '<Plug>(cokeline-pick-close)', { silent = true })
-
-for i = 1,9 do
-  map('n', ('<F%s>'):format(i),      ('<Plug>(cokeline-focus-%s)'):format(i),  { silent = true })
-  map('n', ('<Leader>%s'):format(i), ('<Plug>(cokeline-switch-%s)'):format(i), { silent = true })
-end
 require("mason").setup()
 require("mason-lspconfig").setup()
 
@@ -138,6 +141,7 @@ require('vscode').setup({
         Cursor = { fg=c.vscDarkBlue, bg=c.vscLightGreen, bold=true },
     }
 })
+
 require('vscode').load()
 require('lualine').setup {
   options = {
@@ -252,39 +256,11 @@ inactive_winbar = {
     additional_vim_regex_highlighting = false,
   },
 }
-require('telescope').setup{
-  defaults = {
-    -- Default configuration for telescope goes here:
-    -- config_key = value,
-    mappings = {
-      i = {
-        -- map actions.which_key to <C-h> (default: <C-/>)
-        -- actions.which_key shows the mappings for your picker,
-        -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-        ["<C-h>"] = "which_key"
-      }
-    }
-  },
-  pickers = {
-    -- Default configuration for builtin pickers goes here:
-    -- picker_name = {
-    --   picker_config_key = value,
-    --   ...
-    -- }
-    -- Now the picker_config_key will be applied every time you call this
-    -- builtin picker
-  },
-  extensions = {
-    -- Your extension configuration goes here:
-    -- extension_name = {
-    --   extension_config_key = value,
-    -- }
-    -- please take a look at the readme of the extension you want to configure
-  }
-}
-
-
 local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
@@ -573,55 +549,12 @@ local optsOutline = {
   }
 }
 
-local get_hex = require('cokeline/utils').get_hex
 
 local red = vim.g.terminal_color_1
 local yellow = vim.g.terminal_color_3
-local is_picking_focus = require('cokeline/mappings').is_picking_focus
-local is_picking_close = require('cokeline/mappings').is_picking_close
-require('cokeline').setup({
 
-default_hl = {
-    fg = function(buffer)
-      return
-        buffer.is_focused
-        and yellow   
-      end,
-    bg = 'NONE'
-  },
 
-  components = {
-        {
-      text = function(buffer) return (is_picking_focus() or is_picking_close()) and buffer.pick_letter .. ' ' or buffer.devicon.icon end,
-      fg = function(buffer) return (is_picking_focus() and yellow) or (is_picking_close() and red) or buffer.devicon.color end,
 
-      style = 'italic',
-    },
-    {
-      text = function(buffer) return buffer.filename .. ' ' end,
-    },
-    {
-      text = '',
-      delete_buffer_on_left_click = true,
-    },
-    {
-      text = ' ',
-    }
-  },
-
- sidebar = {
-    filetype = 'NvimTree',
-    components = {
-      {
-        text = '  NvimTree',
-        fg = yellow,
-        bg = get_hex('NvimTreeNormal', 'bg'),
-        style = 'bold',
-      },
-    }
-  },
-}
-)
 
 
 require("symbols-outline").setup(optsOutline)
@@ -635,8 +568,6 @@ require("nvim-tree").setup({
 
 
 })
-local ft_to_parser = require"nvim-treesitter.parsers".filetype_to_parsername
-ft_to_parser.apex = "java"
 
 
 local lsp_flags = {
@@ -675,7 +606,7 @@ null_ls.setup({
     end
   end,
 })
-
+vim.treesitter.language.register('java', 'apex')  -- the someft filetype will use the python parser and queries.
 
 local prettier = require("prettier")
 
@@ -730,11 +661,11 @@ require('lspconfig')['luau_lsp'].setup{
     on_attach = on_attach,
     flags = lsp_flags,
 }
-require('lspconfig')['apex_ls'].setup{
+--[[require('lspconfig')['apex_ls'].setup{
     on_attach = on_attach,
     flags = lsp_flags,
     filetypes = {"apex", "apexcode"},
-}
+}]]--
 require('lspconfig')['jsonls'].setup{
     on_attach = on_attach,
     flags = lsp_flags,
@@ -743,4 +674,22 @@ require('lspconfig')['clangd'].setup{
     on_attach = on_attach,
     flags = lsp_flags,
 }
+require('lspconfig')['pylsp'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+}
+--[[require('lspconfig')['apex_ls'].setup{
+  --apex_jar_path = '~/Downloads/apex-jorje-lsp.jar',
+  cmd={
+    "java",
+    "-jar",
+    "~/apex-jorje-lsp.jar",
+    "apex_language_server",
+  },
+  apex_enable_semantic_errors = false, -- Whether to allow Apex Language Server to surface semantic errors
+  apex_enable_completion_statistics = false,
+  filetypes = {"apex"},
+  on_attach = on_attach,
+  capabilities = capabilities,
+}]]--
 
