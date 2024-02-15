@@ -611,6 +611,7 @@ vim.treesitter.language.register('java', 'apex')  -- the someft filetype will us
 local prettier = require("prettier")
 
 prettier.setup({
+  
   bin = 'prettier', -- or `'prettierd'` (v0.23.3+)
   filetypes = {
     "cls",
@@ -627,7 +628,7 @@ prettier.setup({
     "typescriptreact",
     "yaml",
   },
-["null-ls"] = {
+  ["null-ls"] = {
     condition = function()
       return prettier.config_exists({
         -- if `false`, skips checking `package.json` for `"prettier"` key
@@ -640,6 +641,7 @@ prettier.setup({
     end,
     timeout = 5000,
   }
+
 })
 require('lspconfig')['tsserver'].setup{
     on_attach = on_attach,
